@@ -9,12 +9,13 @@ tier available at console.groq.com).
 import os
 import json
 import re
+import streamlit as st
 from groq import Groq
 from dotenv import load_dotenv
 
 load_dotenv()
 
-MODEL = os.getenv("INTERVIEWGPT_MODEL", "llama-3.3-70b-versatile")
+MODEL = os.getenv("INTERVIEWGPT_MODEL") or st.secrets.get("INTERVIEWGPT_MODEL", "llama-3.3-70b-versatile")
 _client = None
 
 
@@ -23,9 +24,10 @@ def _get_client() -> Groq:
     if _client is None:
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
+            api_key = st.secrets.get("GROQ_API_KEY", None)
+        if not api_key:
             raise RuntimeError(
-                "GROQ_API_KEY is not set. Copy .env.example to .env "
-                "and add your key (free at console.groq.com/keys)."
+                "GROQ_API_KEY not found. Configure it in .env locally or Streamlit Secrets."
             )
         _client = Groq(api_key=api_key)
     return _client
