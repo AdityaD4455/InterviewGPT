@@ -1,0 +1,7 @@
+streamlit>=1.36
+streamlit-mic-recorder>=0.0.8
+groq>=0.11
+pypdf>=4.2
+scikit-learn>=1.4
+pandas>=2.2
+python-dotenv>=1.0
